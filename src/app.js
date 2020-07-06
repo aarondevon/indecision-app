@@ -2,11 +2,15 @@ console.log('app.js is running.');
 
 // JSX JavaScript XML
 // let template = <p>This is JSX from app.js</p>;
-let template = /*#__PURE__*/ React.createElement(
-  'h1',
-  null,
-  'Did this change?'
+let template = <h1></h1>;
+
+let templateTwo = (
+  <div>
+    <h1>Aaron Sawyer</h1>
+    <p>Age: 35</p>
+    <p>Location: Minnetonka</p>
+  </div>
 );
 const appRoot = document.getElementById('app');
 
-ReactDOM.render(template, appRoot);
+ReactDOM.render(templateTwo, appRoot);
