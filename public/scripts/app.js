@@ -1,66 +1,34 @@
 'use strict';
 
-console.log('app.js is running.');
+var toggle = false;
 
-// JSX JavaScript XML
-// let template = <p>This is JSX from app.js</p>;
-var app = {
-  title: 'Indecision App',
-  subtitile: 'Put your life in the hands of a computer',
-  options: ['One', 'Two']
+var onToggle = function onToggle(event) {
+  toggle = !toggle;
+  render();
 };
 
-var template = React.createElement(
-  'div',
-  null,
-  React.createElement(
-    'h1',
-    null,
-    app.title
-  ),
-  app.subtitile && React.createElement(
-    'p',
-    null,
-    app.subtitile
-  ),
-  React.createElement(
-    'p',
-    null,
-    app.options.length > 0 ? 'Here are you options' : 'No options'
-  ),
-  React.createElement(
-    'ol',
+var render = function render() {
+  var template = React.createElement(
+    'div',
     null,
     React.createElement(
-      'li',
+      'h1',
       null,
-      'Item one'
+      'Visibility Toggle'
     ),
     React.createElement(
-      'li',
-      null,
-      'Item two'
-    )
-  )
-);
-
-var user = {
-  name: 'Aaron',
-  age: 35,
-  location: 'Minnetonka'
-};
-
-function geLocation(location) {
-  if (location) {
-    return React.createElement(
+      'button',
+      { onClick: onToggle },
+      toggle ? 'Hide Details' : 'Show Details'
+    ),
+    toggle && React.createElement(
       'p',
       null,
-      'Location: ',
-      location
-    );
-  }
-}
+      'This is the data yo'
+    )
+  );
 
-var appRoot = document.getElementById('app');
+  ReactDOM.render(template, document.getElementById('app'));
+};
 
-renderCounterApp();
+render();
