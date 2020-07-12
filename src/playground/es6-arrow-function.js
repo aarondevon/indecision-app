@@ -1,33 +1,27 @@
-let count = 0;
+// function square(x) {
+//   return x * x;
+// };
 
-const addOne = () => {
-  count++;
-  renderCounterApp();
-};
+// console.log(square(3));
 
-const minusOne = () => {
-  count--;
-  renderCounterApp();
-};
+// // const squareArrow = (x) => {
+// //   return x * x;
+// // };
 
-const reset = () => {
-  count = 0;
-  renderCounterApp();
-};
+// const squareArrow = (x) => x * x;
 
-const renderCounterApp = () => {
-  const templateTwo = (
-    <div>
-      <h1>Count: {count}</h1>
-      <button onClick={addOne}>+1</button>
-      <button onClick={minusOne}>-1</button>
-      <button onClick={reset}>Reset</button>
-    </div>
-  );
+// console.log(squareArrow(4));
 
-  ReactDOM.render(templateTwo, appRoot);
-};
 
-const appRoot = document.getElementById('app');
+// Challenge - Use arrow functions
+// getFirstName('Mike Smith') -> "Mike"
+// Create regular arrow function
+// Create arrow function using shorthand syntax
 
-renderCounterApp();
+// const getFirstName = (fullName) => {
+//   return fullName.split(' ')[0];
+// };
+
+const getFirstName = (fullName) => fullName.split(' ')[0];
+
+console.log(getFirstName('Andrew Mead'));
