@@ -1,15 +1,57 @@
 class IndecisionApp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
+    this.handlePick = this.handlePick.bind(this);
+    this.handleAddOption = this.handleAddOption.bind(this);
+    this.state = {
+      options: [],
+    };
+  }
+
+  handleDeleteOptions() {
+    this.setState(() => {
+      return {
+        options: [],
+      };
+    });
+  }
+
+  handlePick() {
+    const randomNum = Math.floor(Math.random() * this.state.options.length);
+    const option = this.state.options[randomNum];
+    alert(option);
+  }
+
+  handleAddOption(option) {
+    if (!option) {
+      return 'Enter vlaid value to add item';
+    } else if (this.state.options.indexOf(option) > -1) {
+      return 'This option already exists';
+    }
+    this.setState((prevState) => {
+      return {
+        options: prevState.options.concat(option),
+      };
+    });
+  }
+
   render() {
     const title = 'Indecision';
     const subtitle = 'Put your life in the hands of a computer';
-    const options = ['Thing one', 'Thing two', 'Thing three'];
 
     return (
       <div>
         <Header title={title} subtitle={subtitle} />
-        <Action />
-        <Options options={options} />
-        <AddOption />
+        <Action
+          hasOptions={this.state.options.length > 0}
+          onPick={this.handlePick}
+        />
+        <Options
+          options={this.state.options}
+          onDelete={this.handleDeleteOptions}
+        />
+        <AddOption onAddOption={this.handleAddOption} />
       </div>
     );
   }
@@ -27,36 +69,38 @@ class Header extends React.Component {
 }
 
 class Action extends React.Component {
-  handlePick() {
-    alert('handlePick');
-  }
+  // handlePick() {
+  //   alert('handlePick');
+  // }
   render() {
     return (
       <div>
-        <button onClick={this.handlePick}>What should I do?</button>
+        <button onClick={this.props.onPick} disabled={!this.props.hasOptions}>
+          What should I do?
+        </button>
       </div>
     );
   }
 }
 
 class Options extends React.Component {
-  constructor(props) {
-    // need to do this other wise
-    // you won't have access to this.props
-    super(props);
+  //constructor(props) {
+  // need to do this other wise
+  // you won't have access to this.props
+  //super(props);
 
-    // the goal is to bind handleRemoveAll
-    this.handleRemoveAll = this.handleRemoveAll.bind(this);
-  }
+  // the goal is to bind handleRemoveAll
+  // this.handleRemoveAll = this.handleRemoveAll.bind(this);
+  //}
 
-  handleRemoveAll() {
-    alert(this.props.options);
-  }
+  // handleRemoveAll() {
+  //   alert(this.props.options);
+  // }
 
   render() {
     return (
       <div>
-        <button onClick={this.handleRemoveAll}>Remove All</button>
+        <button onClick={this.props.onDelete}>Remove All</button>
         {this.props.options.map((option) => (
           <Option key={option} option={option} />
         ))}
@@ -72,12 +116,18 @@ class Option extends React.Component {
 }
 
 class AddOption extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleAddOption = this.handleAddOption.bind(this);
+  }
+  // Keep this method here because it doesn't make sense to have this
+  // functionality in the parent
   handleAddOption(event) {
     event.preventDefault();
 
     const option = event.target.elements.option.value.trim();
     if (option) {
-      alert(option);
+      this.props.onAddOption(option);
     }
   }
 
