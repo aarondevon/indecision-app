@@ -4,6 +4,7 @@ class IndecisionApp extends React.Component {
     this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
     this.handlePick = this.handlePick.bind(this);
     this.handleAddOption = this.handleAddOption.bind(this);
+    this.handleDeleteOption = this.handleDeleteOption.bind(this);
     this.state = {
       // This allows me to configure the default state if I wanted.
       options: props.options,
@@ -13,6 +14,16 @@ class IndecisionApp extends React.Component {
   handleDeleteOptions() {
     // Wrap objects in () to implicitly return an obeject
     this.setState(() => ({ options: [] }));
+  }
+
+  handleDeleteOption(optionToRemove) {
+    this.setState((prevState) => {
+      return {
+        options: prevState.options.filter(
+          (option) => option !== optionToRemove
+        ),
+      };
+    });
   }
 
   handlePick() {
@@ -44,7 +55,8 @@ class IndecisionApp extends React.Component {
         />
         <Options
           options={this.state.options}
-          onDelete={this.handleDeleteOptions}
+          onDeleteAll={this.handleDeleteOptions}
+          onDeleteOption={this.handleDeleteOption}
         />
         <AddOption onAddOption={this.handleAddOption} />
       </div>
@@ -82,16 +94,31 @@ const Action = (props) => {
 const Options = (props) => {
   return (
     <div>
-      <button onClick={props.onDelete}>Remove All</button>
+      <button onClick={props.onDeleteAll}>Remove All</button>
       {props.options.map((option) => (
-        <Option key={option} option={option} />
+        <Option
+          key={option}
+          optionText={option}
+          onDeleteOption={props.onDeleteOption}
+        />
       ))}
     </div>
   );
 };
 
 const Option = (props) => {
-  return <div>{props.option}</div>;
+  return (
+    <div>
+      {props.optionText}
+      <button
+        onClick={(event) => {
+          props.onDeleteOption(props.optionText);
+        }}
+      >
+        Delete
+      </button>
+    </div>
+  );
 };
 
 class AddOption extends React.Component {
