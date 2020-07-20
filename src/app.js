@@ -7,8 +7,31 @@ class IndecisionApp extends React.Component {
     this.handleDeleteOption = this.handleDeleteOption.bind(this);
     this.state = {
       // This allows me to configure the default state if I wanted.
-      options: props.options,
+      options: [],
     };
+  }
+
+  // React life cycle method
+  componentDidMount() {
+    try {
+      const json = localStorage.getItem('options');
+      const options = JSON.parse(json);
+      console.log(options);
+      if (options) {
+        this.setState({
+          options: options,
+        });
+        console.log('fetching data');
+      }
+    } catch (error) {}
+  }
+  // React life cycle method
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.options.length !== this.state.options.length) {
+      const json = JSON.stringify(this.state.options);
+      localStorage.setItem('options', json);
+      console.log('saving data');
+    }
   }
 
   handleDeleteOptions() {
@@ -64,10 +87,6 @@ class IndecisionApp extends React.Component {
   }
 }
 
-IndecisionApp.defaultProps = {
-  options: [],
-};
-
 const Header = (props) => {
   return (
     <div>
@@ -95,6 +114,9 @@ const Options = (props) => {
   return (
     <div>
       <button onClick={props.onDeleteAll}>Remove All</button>
+      {props.options.length === 0 && (
+        <p>Please add an option to get started.</p>
+      )}
       {props.options.map((option) => (
         <Option
           key={option}
@@ -138,6 +160,10 @@ class AddOption extends React.Component {
     const error = this.props.onAddOption(option);
 
     this.setState(() => ({ /* shorthand for error: error*/ error }));
+
+    if (!error) {
+      event.target.elements.option.value = '';
+    }
   }
 
   render() {
