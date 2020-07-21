@@ -1,4 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-console.log('App.js is running');
+const template = (
+  <div>
+    <p>I am loading</p>
+  </div>
+);
+
+ReactDOM.render(template, document.getElementById('app'));
