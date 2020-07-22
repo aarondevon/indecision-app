@@ -1,16 +1,13 @@
 import React from 'react';
 
 export default class AddOption extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleAddOption = this.handleAddOption.bind(this);
-    this.state = {
-      error: undefined,
-    };
-  }
+  state = {
+    error: undefined,
+  };
+
   // Keep this method here because it doesn't make sense to have this
   // functionality in the parent
-  handleAddOption(event) {
+  handleAddOption = (event) => {
     event.preventDefault();
 
     const option = event.target.elements.option.value.trim();
@@ -21,7 +18,7 @@ export default class AddOption extends React.Component {
     if (!error) {
       event.target.elements.option.value = '';
     }
-  }
+  };
 
   render() {
     return (
